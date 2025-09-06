@@ -1,10 +1,22 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
-  "version": "1.0",
   "manifest_version": 3,
+  "name": "ClipSave",
+  "version": "1.0.0",
+  "description": "Clipboard history manager in Chrome's side panel.",
+  "permissions": ["storage", "sidePanel", "scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
-    "default_popup": "hello.html",
-    "default_icon": "icon.png"
-  }
+    "default_title": "Open ClipSave"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }

@@ -1,0 +1,39 @@
+#background {
+    background-image: linear-gradient(white, #B5EBF0);
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 15px;
+    max-width: 100%;
+}
+
+#ClearAll {
+    margin: 10px;
+    width: 90%;
+    background: #658CF0;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: .5s;
+}
+
+#ClearAll:hover {
+    background: #4b69b3;
+    transition: .5s;
+}
+
+#clipsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td, th {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+td:not(:first-of-type) {
+  text-align: center;
+}
