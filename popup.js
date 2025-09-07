@@ -16,6 +16,14 @@ function createClipRow(clip, index) {
   const contentCell = document.createElement("td");
   if (clip.text) {
     contentCell.textContent = clip.text;
+    contentCell.style.cursor = "pointer";
+    contentCell.title = "Click to copy";
+    contentCell.addEventListener("click", () => {
+        navigator.clipboard.writeText(clip.text).then(() => {
+          contentCell.style.backgroundColor = "#d4edda"; // light green flash
+          setTimeout(() => contentCell.style.backgroundColor = "", 200);
+        });
+      });
   } else if (clip.image) {
     const img = document.createElement("img");
     img.src = clip.image;
