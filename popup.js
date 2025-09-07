@@ -13,40 +13,50 @@ function formatTime(timestamp) {
 function createClipRow(clip, index) {
   const row = document.createElement("tr");
 
-  // Text content
-  const textCell = document.createElement("td");
-  textCell.textContent = clip.text;
-  textCell.style.cursor = "pointer";
-  textCell.addEventListener("click", () => {
-    navigator.clipboard.writeText(clip.text);
-  });
+  const contentCell = document.createElement("td");
+  if (clip.text) {
+    contentCell.textContent = clip.text;
+  } else if (clip.image) {
+    const img = document.createElement("img");
+    img.src = clip.image;
+    img.style.maxWidth = "100px";
+    img.style.maxHeight = "60px";
+    contentCell.appendChild(img);
+  }
 
-  // Time content
+  const urlCell = document.createElement("td");
+  if (clip.url) {
+    const link = document.createElement("a");
+    link.href = clip.url;
+    link.textContent = "Source";
+    link.target = "_blank";
+    urlCell.appendChild(link);
+  }
+  else {
+    const src = document.createElement("p");
+    src.textContent = "Manual";
+    urlCell.appendChild(src);
+  }
+
   const timeCell = document.createElement("td");
   timeCell.textContent = formatTime(clip.time);
 
   const actionCell = document.createElement("td");
   const delBtn = document.createElement("button");
   delBtn.innerHTML = "&#10060;";
-  delBtn.style.cursor = "pointer";
-  delBtn.style.border = "none";
-  delBtn.style.background = "transparent";
-  delBtn.title = "Delete this clip";
-
   delBtn.addEventListener("click", () => {
     chrome.storage.local.get(["clips"], (data) => {
       const clips = data.clips || [];
-      clips.splice(index, 1); // remove this clip
+      clips.splice(index, 1);
       chrome.storage.local.set({ clips });
     });
   });
-
   actionCell.appendChild(delBtn);
 
-  row.appendChild(textCell);
+  row.appendChild(contentCell);
+  row.appendChild(urlCell);
   row.appendChild(timeCell);
   row.appendChild(actionCell);
-
   return row;
 }
 
@@ -64,7 +74,6 @@ function renderClips() {
 }
 
 saveManualBtn.addEventListener("click", () => {
-  console.log("Save button click");
   const text = manualInput.value.trim();
   if (text) {
     console.log("Popup sending SAVE_CLIP:", text);
@@ -84,7 +93,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     renderClips();
   }
   else {
-    console.log("Clup not being made");
+    console.log("Clip not being made");
   }
 });
 

@@ -1,14 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "ClipSave",
+  "name": "Ctrl C Savior",
   "version": "1.0.0",
   "description": "Clipboard history manager in Chrome's side panel.",
-  "permissions": ["storage", "sidePanel", "scripting", "activeTab"],
+  "permissions": ["storage", "sidePanel", "scripting", "activeTab", "contextMenus", "clipboardRead"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Open ClipSave"
+    "default_title": "Access Ctrl C Savior"
   },
   "side_panel": {
     "default_path": "popup.html"

@@ -1,3 +1,8 @@
+html {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
 #background {
     background-image: linear-gradient(white, #B5EBF0);
     min-height: 100%;
