@@ -3,40 +3,59 @@ html {
   word-wrap: break-word;
 }
 
+body {
+  font-family: "Geist", sans-serif;
+}
+
 #background {
-    background-image: linear-gradient(white, #B5EBF0);
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
-    border-radius: 15px;
-    max-width: 100%;
+  background-image: linear-gradient(white, rgb(230, 234, 255));
+  min-height: 100%;
+  margin: 10px;
+  padding: 0;
+  border-radius: 15px;
+  max-width: 100%;
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+  padding: 5px;
 }
 
 #ClearAll {
-    margin: 10px;
-    width: 90%;
-    background: #658CF0;
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 15px;
-    transition: .5s;
+  margin: 10px;
+  width: 90%;
+  background: #3F88C5;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: .5s;
 }
 
 #ClearAll:hover {
-    background: #4b69b3;
-    transition: .5s;
+  background: #4b69b3;
+  transition: .5s;
 }
 
 #clipsTable {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-td, th {
+td,
+th {
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+td:first-of-type:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  transition: .25s;
+  border-radius: 6px solid black;
+}
+
+td:first-of-type {
+  transition: .4s;
 }
 
 td:not(:first-of-type) {

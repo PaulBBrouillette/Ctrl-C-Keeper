@@ -3,7 +3,16 @@
   "name": "Ctrl C Savior",
   "version": "1.0.0",
   "description": "Clipboard history manager in Chrome's side panel.",
-  "permissions": ["storage", "sidePanel", "scripting", "activeTab", "contextMenus", "clipboardRead"],
+  "permissions": 
+  [
+    "storage", 
+    "sidePanel", 
+    "scripting", 
+    "activeTab", 
+    "contextMenus", 
+    "clipboardRead", 
+    "clipboardWrite"
+  ],
   "background": {
     "service_worker": "background.js"
   },

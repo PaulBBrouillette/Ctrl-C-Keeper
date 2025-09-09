@@ -6,36 +6,49 @@ const clearAllBtn = document.getElementById("clearAll");
 console.log("Popup js");
 
 function formatTime(timestamp) {
-  const d = new Date(timestamp);
-  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return new Date(timestamp).toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
 }
 
 function createClipRow(clip, index) {
   const row = document.createElement("tr");
-
+  console.log(clip);
   const contentCell = document.createElement("td");
   if (clip.text) {
     contentCell.textContent = clip.text;
     contentCell.style.cursor = "pointer";
     contentCell.title = "Click to copy";
     contentCell.addEventListener("click", () => {
-        navigator.clipboard.writeText(clip.text).then(() => {
-          contentCell.style.backgroundColor = "#d4edda"; // light green flash
-          setTimeout(() => contentCell.style.backgroundColor = "", 200);
-        });
+      navigator.clipboard.writeText(clip.text).then(() => {
+        contentCell.style.backgroundColor = "#d4edda";
+        setTimeout(() => contentCell.style.backgroundColor = "", 200);
       });
+    });
   } else if (clip.image) {
     const img = document.createElement("img");
     img.src = clip.image;
     img.style.maxWidth = "100px";
     img.style.maxHeight = "60px";
+    img.style.cursor = "pointer";
+    img.title = "Click to copy image URL";
+    img.addEventListener("click", async () => {
+      navigator.clipboard.writeText(img.src).then(() => {
+        contentCell.style.backgroundColor = "#d4edda";
+        setTimeout(() => contentCell.style.backgroundColor = "", 200);
+      });
+    });
     contentCell.appendChild(img);
   }
 
   const urlCell = document.createElement("td");
   if (clip.url) {
     const link = document.createElement("a");
-    link.href = clip.url;
+    link.href = clip.image || clip.url; // prefer image source if available
     link.textContent = "Source";
     link.target = "_blank";
     urlCell.appendChild(link);
@@ -47,6 +60,7 @@ function createClipRow(clip, index) {
   }
 
   const timeCell = document.createElement("td");
+  console.log("TIME: " + clip.time);
   timeCell.textContent = formatTime(clip.time);
 
   const actionCell = document.createElement("td");
