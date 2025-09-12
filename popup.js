@@ -48,7 +48,7 @@ function createClipRow(clip, index) {
   const urlCell = document.createElement("td");
   if (clip.url) {
     const link = document.createElement("a");
-    link.href = clip.image || clip.url; // prefer image source if available
+    link.href = clip.url;
     link.textContent = "Source";
     link.target = "_blank";
     urlCell.appendChild(link);

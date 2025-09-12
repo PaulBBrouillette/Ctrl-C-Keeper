@@ -13,6 +13,10 @@
     "clipboardRead", 
     "clipboardWrite"
   ],
+  "icons": {
+    "48": "images/clipboard.png",
+    "128": "images/clipboard.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
