@@ -31,7 +31,11 @@ chrome.runtime.onStartup.addListener(() => {
   chrome.contextMenus.create({
     id: "saveImage",
     title: "Save image to Ctrl C Savior",
-    contexts: ["image"]
+    contexts: ["image"],
+    "icons": {
+      "48": "images/clipboard.png",
+      "128": "images/clipboard.png"
+    }
   });
 });
 
