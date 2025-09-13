@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Ctrl-C Savior - Clipboard Manager",
+  "name": "ClipVault - Clipboard Manager",
   "version": "1.0.0",
-  "description": "Clipboard history manager in Chrome's side panel",
+  "description": "Clipboard history manager for both text and images",
   "permissions": 
   [
     "storage", 
@@ -21,15 +21,9 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Access Ctrl C Savior"
+    "default_title": "Open ClipVault"
   },
   "side_panel": {
     "default_path": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ]
+  }
 }

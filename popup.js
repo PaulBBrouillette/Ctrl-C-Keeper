@@ -3,30 +3,28 @@ const saveManualBtn = document.getElementById("saveManual");
 const manualInput = document.getElementById("manualInput");
 const clearAllBtn = document.getElementById("clearAll");
 
-console.log("Popup js");
-
 function formatTime(timestamp) {
-  return new Date(timestamp).toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+  return new Date(timestamp).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false
   });
 }
 
 function createClipRow(clip, index) {
   const row = document.createElement("tr");
-  console.log(clip);
+
+  // Text or image
   const contentCell = document.createElement("td");
   if (clip.text) {
     contentCell.textContent = clip.text;
     contentCell.style.cursor = "pointer";
-    contentCell.title = "Click to copy";
+    contentCell.title = "Click to copy text";
     contentCell.addEventListener("click", () => {
       navigator.clipboard.writeText(clip.text).then(() => {
-        contentCell.style.backgroundColor = "#d4edda";
-        setTimeout(() => contentCell.style.backgroundColor = "", 200);
+        flashCell(contentCell);
       });
     });
   } else if (clip.image) {
@@ -37,32 +35,29 @@ function createClipRow(clip, index) {
     img.style.cursor = "pointer";
     img.title = "Click to copy image URL";
     img.addEventListener("click", async () => {
-      navigator.clipboard.writeText(img.src).then(() => {
-        contentCell.style.backgroundColor = "#d4edda";
-        setTimeout(() => contentCell.style.backgroundColor = "", 200);
-      });
+      await navigator.clipboard.writeText(img.src);
+      flashCell(contentCell);
     });
     contentCell.appendChild(img);
   }
 
+  // Source
   const urlCell = document.createElement("td");
   if (clip.url) {
     const link = document.createElement("a");
     link.href = clip.url;
-    link.textContent = "Source";
+    link.textContent = clip.url.length > 20 ? "Source" : clip.url;
     link.target = "_blank";
     urlCell.appendChild(link);
-  }
-  else {
-    const src = document.createElement("p");
-    src.textContent = "Manual";
-    urlCell.appendChild(src);
+  } else {
+    urlCell.textContent = "Manual";
   }
 
+  // Time saved
   const timeCell = document.createElement("td");
-  console.log("TIME: " + clip.time);
   timeCell.textContent = formatTime(clip.time);
 
+  // Delete
   const actionCell = document.createElement("td");
   const delBtn = document.createElement("button");
   delBtn.innerHTML = "&#10060;";
@@ -79,43 +74,43 @@ function createClipRow(clip, index) {
   row.appendChild(urlCell);
   row.appendChild(timeCell);
   row.appendChild(actionCell);
+
   return row;
+}
+
+function flashCell(cell) {
+  cell.style.backgroundColor = "#7bda91ff";
+  setTimeout(() => (cell.style.backgroundColor = ""), 300);
 }
 
 function renderClips() {
   chrome.storage.local.get(["clips"], (data) => {
     const clips = data.clips || [];
-    console.log("Clips: " + clips);
     clipsBody.innerHTML = "";
     clips.forEach((clip, index) => {
       const row = createClipRow(clip, index);
-      console.log("Row: " + row);
       clipsBody.appendChild(row);
     });
   });
 }
 
+// Manual
 saveManualBtn.addEventListener("click", () => {
   const text = manualInput.value.trim();
   if (text) {
-    console.log("Popup sending SAVE_CLIP:", text);
     chrome.runtime.sendMessage({ type: "SAVE_CLIP", text });
     manualInput.value = "";
   }
 });
 
+// Clear all
 clearAllBtn.addEventListener("click", () => {
   chrome.storage.local.set({ clips: [] });
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
-  console.log(changes);
-  console.log(area);
   if (area === "local" && changes.clips) {
     renderClips();
-  }
-  else {
-    console.log("Clip not being made");
   }
 });
 
